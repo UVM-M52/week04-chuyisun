@@ -16,7 +16,7 @@ definition divides (a b : ℤ) : Prop := ∃ (n : ℤ), a * n = b
 local infix ∣ := divides
 
 -- Lakins Example 2.1.2:
-example : 3 ∣ 12 :=
+example : 3 ∣ 12 := 
 begin
 unfold divides,
 existsi (4:ℤ),
@@ -40,7 +40,19 @@ end
 -- if a ∣ b and b ∣ c, then a ∣ c.
 theorem divides_trans : ∀ (a b c : ℤ), a ∣ b ∧ b ∣ c → a ∣ c :=
 begin
-sorry
+intros a b c,
+intro H,
+cases H, 
+unfold divides,
+unfold divides at H_left H_right,
+cases H_left with n,
+cases H_right with m,
+existsi(n*m:ℤ), 
+symmetry,
+calc c 
+=b*m : by rw H_right_h ...
+=(a*n)*m : by rw H_left_h ...
+=a*(n*m): by ac_refl,
 end
 -- Proof: Let a,b,c ∈ ℤ be arbitrary and assume that 
 -- a ∣ b and b ∣ c. We must show that a ∣ c; i.e., we
